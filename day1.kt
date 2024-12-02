@@ -17,12 +17,14 @@ fun logic_second(input: List<String>) : Int {
 }
 
 fun logic_first(input: List<String>) : Int {
-  var first : ArrayList<Int> = arrayListOf()
-  var second : ArrayList<Int> = arrayListOf()
+  var first : MutableList<Int> = mutableListOf()
+  var second : MutableList<Int> = mutableListOf()
+
   for (x in input) {
     val split : List<String> = x.split(Regex("\\s+"))
     first.add(split[0].toInt())
     second.add(split[1].toInt())
+
   }
   first.sort()
   second.sort()
