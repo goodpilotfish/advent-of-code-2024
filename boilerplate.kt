@@ -15,7 +15,7 @@ fun logic_second(input: List<String>) : Int {
 }
 
 fun logic_first(input: List<String>) : Int {
-return 42
+  return 42
 }
 
 fun main() {
