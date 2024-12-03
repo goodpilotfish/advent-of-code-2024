@@ -1,3 +1,26 @@
+import kotlin.math.abs
+
+val checkDiff : (Int,Int) -> Boolean = { a, b -> abs(a-b) >=1 && abs(a-b) <=3 }
+val checkAscending : (Int,Int) -> Boolean = { a, b -> a <= b && checkDiff(a, b) }
+val checkDecending : (Int,Int) -> Boolean = { a, b -> a >= b && checkDiff(a, b) }
+
+fun logic_first(input: List<List<Int>>) : Int {
+  var safeCounter = 0
+  for (x in input) {
+    var ascending = x.toMutableList().sorted() == x
+    var decending = x.toMutableList().sortedDescending() == x
+
+    for (i in 0..x.count()-2) {
+      if (ascending) ascending = checkAscending(x[i], x[i+1])
+      if (decending) decending = checkDecending(x[i], x[i+1])
+    }
+    safeCounter += if (decending || ascending) 1 else 0
+  }
+  return safeCounter
+}
+
+//////
+
 fun test_first(fileName: String, answer: Int) {
   val input = readByLinesToSplitInts(fileName)
 
@@ -7,42 +30,10 @@ fun test_first(fileName: String, answer: Int) {
   println("Success!")
 }
 
-fun test_second(fileName: String, answer: Int) {
-}
-
-fun logic_second(input: List<String>) : Int {
-  return 42
-}
-
-fun logic_first(input: List<List<Int>>) : Int {
-  var safeCounter = 0
-  for (x in input) {
-    val a : List<Boolean> = x.mapIndexed { i, element ->
-      if (i < x.count()-1) (element > x[i+1]) && (element-x[i+1] >= 1 && element-x[i+1] <= 3)   else false
-    } 
-    val aa = a.toMutableList()
-    aa.removeLast()
-    //println(aa)
-    val aaa = aa.contains(false)
-
-    val b : List<Boolean> = x.mapIndexed { i, element ->
-      if (i < x.count()-1) (element < x[i+1]) && (x[i+1]-element >= 1 && x[i+1]-element <= 3) else false
-    } 
-    val bb = b.toMutableList()
-    bb.removeLast()
-    //println(bb)
-    val bbb = bb.contains(false)
-
-    safeCounter += if (!aaa || !bbb) 1 else 0
-  }
-  return safeCounter
-}
-
 fun main() {
   val test_input = "day2_test"
   val real_input = "input/day2_real"
   test_first("input/$test_input", 2)
-  //test_second("input/$test_input", 5)
 
   // TODO Call with real data
   val input = readByLinesToSplitInts(real_input)
