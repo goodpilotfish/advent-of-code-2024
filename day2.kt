@@ -1,20 +1,13 @@
 import kotlin.math.abs
 
-val checkDiff : (Int,Int) -> Boolean = { a, b -> abs(a-b) >=1 && abs(a-b) <=3 }
-val checkAscending : (Int,Int) -> Boolean = { a, b -> a <= b && checkDiff(a, b) }
-val checkDecending : (Int,Int) -> Boolean = { a, b -> a >= b && checkDiff(a, b) }
-
 fun logic_first(input: List<List<Int>>) : Int {
   var safeCounter = 0
   for (x in input) {
-    var ascending = x.toMutableList().sorted() == x
-    var decending = x.toMutableList().sortedDescending() == x
+    var isAscending = x.toMutableList().sorted() == x
+    var isDecending = x.toMutableList().sortedDescending() == x
+    val checkDiff = x.windowed(2).all { (a, b) -> abs(a - b) in 1..3 }
 
-    for (i in 0..x.count()-2) {
-      if (ascending) ascending = checkAscending(x[i], x[i+1])
-      if (decending) decending = checkDecending(x[i], x[i+1])
-    }
-    safeCounter += if (decending || ascending) 1 else 0
+    safeCounter += if (checkDiff && (isDecending || isAscending)) 1 else 0
   }
   return safeCounter
 }
@@ -36,7 +29,7 @@ fun main() {
   test_first("input/$test_input", 2)
 
   // TODO Call with real data
-  val input = readByLinesToSplitInts(real_input)
-  println(logic_first(input))
+  //val input = readByLinesToSplitInts(real_input)
+  //println(logic_first(input))
 }
 
